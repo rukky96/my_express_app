@@ -5,7 +5,7 @@ let fellows = [{firstName: 'Kelvin', lastName: 'Akproko', phone: '08120001132'}]
 
 const app = express();
 
-const port = 3030;
+const port = 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views')
