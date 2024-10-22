@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html>
+<head>
+
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <div id="table-div">
+    <h2>Welcome Dear Fellow,</h2>
+    <p>Below are the <b>3MTT</b> Fellows at <b>Imose Technologies.</b> A form is also provided to add your name if it's not on the list.</p>
+
+  <div id="table-holder"><table>
+    <thead>
+        <tr>
+            <th>S/N.</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% fellows.forEach(function(fellow, index) {%>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= fellow.firstName %></td>
+                <td><%= fellow.lastName %></td>
+                <td><%= fellow.phone %></td>
+            </tr>
+        <%}); %>
+      
+      </tbody>
+  </table></div>
+  </div>
+
+  <div id="form-div">
+    <p>Please, fill in the form to add your name</p>
+    <form action="/add-fellow" method="POST">
+        <p>
+            <b>First Name:</b> <br><input class="text-input" name="firstName" placeholder="e.g John" minlength="2" required>
+
+        </p>
+        <p>
+            <b>Last Name: </b><br><input class="text-input" name="lastName" placeholder="e.g Smith" minlength="2" required>
+
+        </p>
+        <p>
+            <b>Phone:</b> <br><input class="text-input" type="number" name="phone" placeholder="e.g 08060003356" minlength="11" required>
+
+        </p>
+        <button type="submit" id="submit-button">Submit Details</button>
+    </form>
+  </div>
+    
+</body>
+</html>
