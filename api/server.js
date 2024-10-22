@@ -3,11 +3,12 @@ const express = require("express");
 let fellows = [{firstName: 'Kelvin', lastName: 'Akproko', phone: '08120001132'}];
 
 const app = express();
+const path = require('path');
 
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
-app.set('views', 'views')
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 
