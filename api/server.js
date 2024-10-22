@@ -1,11 +1,10 @@
 const express = require("express");
-const exams = require("./exams");
 
 let fellows = [{firstName: 'Kelvin', lastName: 'Akproko', phone: '08120001132'}];
 
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views')
@@ -35,10 +34,5 @@ app.post('/add-fellow', function (req, res){
     
 })
 
-app.use('/exams', exams);
 
-app.use(express.static('public'));
-
-app.listen(port, function() {
-    console.log('Port is running');
-});
+module.exports = app;
