@@ -96,7 +96,6 @@ tr:hover {
 
 #table-holder {
     width: 100%;
-    overflow-x: scroll;
     height: fit-content;
 }
 
@@ -107,6 +106,10 @@ tr:hover {
         justify-content: flex-start;
         align-items: center;
     
+    }
+
+    #table-holder {
+        overflow-x: scroll;
     }
     #table-div {
         width: 100%;

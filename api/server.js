@@ -1,22 +1,19 @@
+const { createClient } = require('@supabase/supabase-js');
+
 const express = require("express");
 
+const supabaseUrl = 'https://txukkxbkfzeqiozjakrp.supabase.co';  // Your Supabase URL
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4dWtreGJrZnplcWlvempha3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NzE1NzcsImV4cCI6MjA0NTI0NzU3N30.IBbc9TpcjE3O2QXBaY2ORfZfUzq9zgwUSB7P33L7aqM';  // Your Supabase API key
 
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 const path = require('path');
-const fs = require("fs");
-const fellowsFilePath = path.join(__dirname, "fellows.json");
 
 const port = process.env.PORT || 3000;
 
 let fellows = [
 ];
-
-fs.readFile(fellowsFilePath, "utf8", (err, data) => {
-    if (!err && data) {
-      fellows = JSON.parse(data);
-    }
-  });
 
 
 app.engine('ejs', require('ejs').renderFile);
@@ -26,33 +23,42 @@ app.use(express.static(path.join(__dirname, '/../public')));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/",  function (req, res){
+app.get("/",  async function (req, res){
+
+  const {data: fellows, error} = await supabase
+    .from('fellows')
+    .select('*');
+
+    if (error)  {
+      console.error('Error fetching fellows:', error);
+      return res.status(500).send('Error retrieving fellows');
+    }
     
-   res.render('index', {title : 'Home Page', fellows: fellows});
+   res.render('index', {title : 'Home Page', fellows});
    console.log(fellows);
 })
 
-app.post('/add-fellow', function (req, res){
+app.post('/add-fellow', async function (req, res){
 
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var phone = req.body.phone;
 
     if (firstName != null && lastName != null && phone != null) {
-        const newFellow = {
-            firstName,
-            lastName,
-            phone,
-        }
-        fellows.push(newFellow);
+        const {error} = await supabase 
+        .from('fellows')
+        .insert([{firstName, lastName, phone}]);
 
+        if (error) {
+          console.error('Error adding fellow:', error);
+          return res.status(500).send('Error saving fellow');
+        }
+
+        res.redirect('/');
         
-        fs.writeFile(fellowsFilePath, JSON.stringify(fellows, null, 2), (err) => {
-            if (err) console.error("Error saving data:", err);
-          });
-        
-    } 
-    res.redirect('/');
+    } else {
+      res.status(400).send('All fields are required');
+    }
     
 })
 
