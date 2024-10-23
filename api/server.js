@@ -7,16 +7,17 @@ const path = require('path');
 
 const port = process.env.PORT || 3000;
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('views', path.join(__dirname, 'views'));
+
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/../views');
+app.use(express.static(path.join(__dirname, '/../public')));
 
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/",  function (req, res){
     
-   res.render('index.ejs', {title : 'Home Page', fellows: fellows});
+   res.render('index', {title : 'Home Page', fellows: fellows});
 })
 
 app.post('/add-fellow', function (req, res){
@@ -37,10 +38,10 @@ app.post('/add-fellow', function (req, res){
     
 })
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).render('error.ejs');
-  });
 
+
+app.listen(port, () => {
+    console.log("Port is running");
+})
 
 module.exports = app;
