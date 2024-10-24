@@ -22,6 +22,7 @@ app.set('views', __dirname + '/../views');
 app.use(express.static(path.join(__dirname, '/../public')));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(function(req, res, next) {
   res.set('Cache-Control', 'no-store');
@@ -42,6 +43,11 @@ app.get("/",  async function (req, res){
    res.render('index', {title : 'Home Page', fellows});
    console.log(fellows);
 })
+
+
+app.get("", async function (req, res){
+
+});
 
 app.post('/add-fellow', async function (req, res){
 
@@ -67,6 +73,48 @@ app.post('/add-fellow', async function (req, res){
     
 })
 
+app.get("/api/fellows", async function (req, res) {
+  const { data: fellows, error } = await supabase
+    .from('fellows')
+    .select('*');
+
+  if (error) {
+    console.error('Error fetching fellows:', error);
+    return res.status(500).json({ message: 'Error retrieving fellows' });
+  }
+
+  // Return the list of fellows in JSON format
+  res.status(200).json(fellows);
+  console.log(fellows);
+});
+
+
+app.post('/api/fellows', async function (req, res) {
+  const { firstName, lastName, phone } = req.body;
+
+  // Validate input fields
+  if (!firstName || !lastName || !phone) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
+
+  // Insert fellow into Supabase
+  const { data, error } = await supabase
+    .from('fellows')
+    .insert([{ firstName, lastName, phone }])
+    .select();
+
+  if (error) {
+    console.error('Error adding fellow:', error);
+    return res.status(500).json({ message: 'Error saving fellow' });
+  }
+
+  if (data && data.length > 0) {
+    res.status(201).json({ message: 'Fellow added successfully', fellow: data[0] });
+} else {
+    res.status(500).send('Fellow added but no data returned');
+}
+
+});
 
 
 app.listen(port, () => {
