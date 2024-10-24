@@ -17,6 +17,7 @@ body {
     padding: 20px;
     box-sizing: border-box;
     border-radius: 5px;
+    overflow-y: scroll;
     
     
 }
@@ -97,6 +98,7 @@ tr:hover {
 #table-holder {
     width: 100%;
     height: fit-content;
+    overflow-y: scroll;
 }
 
 @media  only screen and (max-width: 768px) {
@@ -110,8 +112,10 @@ tr:hover {
 
     #table-holder {
         overflow-x: scroll;
+        overflow-y: scroll;
     }
     #table-div {
+        overflow-y: scroll;
         width: 100%;
         height: fit-content;
         border-bottom-left-radius: 0px;
