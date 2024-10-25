@@ -1,25 +1,23 @@
+
+// Supabase was used as the database to host data. The supabaseUrl and supabaseKey were obtained from the project section I created on Supabase
 const { createClient } = require('@supabase/supabase-js');
-
-const express = require("express");
-
-const supabaseUrl = 'https://txukkxbkfzeqiozjakrp.supabase.co';  // Your Supabase URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4dWtreGJrZnplcWlvempha3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NzE1NzcsImV4cCI6MjA0NTI0NzU3N30.IBbc9TpcjE3O2QXBaY2ORfZfUzq9zgwUSB7P33L7aqM';  // Your Supabase API key
-
+const supabaseUrl = 'https://txukkxbkfzeqiozjakrp.supabase.co'; 
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4dWtreGJrZnplcWlvempha3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NzE1NzcsImV4cCI6MjA0NTI0NzU3N30.IBbc9TpcjE3O2QXBaY2ORfZfUzq9zgwUSB7P33L7aqM'; 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const express = require("express");
 const app = express();
 const path = require('path');
-
+const cors = require("cors");
 const port = process.env.PORT || 3000;
-
-let fellows = [
-];
 
 
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/../views');
 app.use(express.static(path.join(__dirname, '/../public')));
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -119,7 +117,6 @@ app.post('/api/fellows', async function (req, res) {
 
 app.listen(port, () => {
     console.log("Port is running");
-    console.log(fellows);
 })
 
 module.exports = app;
