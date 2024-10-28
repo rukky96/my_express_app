@@ -1,8 +1,12 @@
 
 // Supabase was used as the database to host data. The supabaseUrl and supabaseKey were obtained from the project section I created on Supabase
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 const { createClient } = require('@supabase/supabase-js');
-const supabaseUrl = 'https://txukkxbkfzeqiozjakrp.supabase.co'; 
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4dWtreGJrZnplcWlvempha3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NzE1NzcsImV4cCI6MjA0NTI0NzU3N30.IBbc9TpcjE3O2QXBaY2ORfZfUzq9zgwUSB7P33L7aqM'; 
+const supabaseUrl = process.env.SUPABASE_URL; 
+const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const express = require("express");
