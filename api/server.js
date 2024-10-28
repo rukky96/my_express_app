@@ -114,6 +114,40 @@ app.post('/api/fellows', async function (req, res) {
 
 });
 
+app.get('/questions', function(req, res) {
+  res.render('addQuestion')
+})
+
+
+app.post('/questions', async function (req, res) {
+  var subject = req.body.subject;
+  var question = req.body.question;
+  var topic = req.body.topic;
+  var optionA = req.body.optionA;
+  var optionB = req.body.optionB; 
+  var optionC = req.body.optionC;
+  var optionD = req.body.optionD;
+  var correctOption = req.body.correctOption;
+  var explanation = req.body.explanation;
+  var addedBy = req.body.email
+
+  const {data, error} = await supabase
+  .from('questions')
+  .insert([{subject, question, topic, optionA, optionB, optionC, optionD, correctOption, explanation, addedBy}])
+  .select()
+
+  if (error) {
+    console.log(error);
+  }
+
+  console.log(req.body);
+  console.log(data[0]);
+  res.redirect('/questions');
+
+
+})
+
+
 
 app.listen(port, () => {
     console.log("Port is running");
