@@ -87,7 +87,6 @@ app.get("/api/fellows", async function (req, res) {
 
   // Return the list of fellows in JSON format
   res.status(200).json(fellows);
-  console.log(fellows);
 });
 
 
@@ -144,11 +143,21 @@ app.post('/questions', async function (req, res) {
     console.log(error);
   }
 
-  console.log(req.body);
-  console.log(data[0]);
   res.redirect('/questions');
 
 
+})
+
+app.get('/questions/counts', async (req, res) => {
+  const {data, error} = await supabase
+  .from('questioncounts')
+  .select('*')
+
+  if (error) {
+    res.send('Could not get data')
+    console.log(error);
+  }
+  res.render('questionCounts', {counts: data})
 })
 
 

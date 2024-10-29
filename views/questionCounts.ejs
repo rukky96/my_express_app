@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                
+               
+
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th {
+                background-color: darkgreen;
+                color: white;
+                height: 40px;
+                font-size: 18px;
+                text-align: left;
+                padding: 5px;
+            }
+
+            tr, td {
+                height: 40px;
+                font-size: 17px;
+                padding: 5px;
+
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <th>S/N</th>
+                <th>Email of Collaborator</th>
+                <th>Total Added</th>
+            </thead>
+            <tbody>
+                <% counts.forEach((count, index) =>{%>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= count.addedBy %></td>
+                        <td><%= count.count %></td>
+                    </tr>
+                <%}); %>
+            </tbody>
+        </table>
+    </body>
+</html>
